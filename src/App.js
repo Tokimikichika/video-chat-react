@@ -62,7 +62,9 @@ function App() {
     })
 
     peer.on("stream", (stream) => {
-      userVideo.current.srcObject = stream;
+      if(myVideo.current) {
+        myVideo.current.srcObject = stream
+      }
     })
 
     socket.on("callAccepted", (signal) => {
@@ -86,7 +88,9 @@ const answerCall = () => {
   })
 
   peer.on("stream", (stream) => {
-    userVideo.current.srcObject = stream
+    if(myVideo.current) {
+      myVideo.current.srcObject = stream
+    }
   })
 
   peer.signal(callerSignal)
