@@ -9,7 +9,7 @@ import Peer from "simple-peer";
 import io from "socket.io-client"
 import './App.css';
 
-const socket = io.connect("https://video-chat-wsfq.onrender.com")
+const socket = io.connect("http://localhost:5000")
 
 function App() {
   const [me, setMe] = useState("")
@@ -29,9 +29,9 @@ function App() {
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({video: true, audio: true}).then((stream) => {
       setStream(stream)
-      if(myVideo.current) {
+      
         myVideo.current.srcObject = stream
-      }
+      
       
     })
     socket.on('me', (id) => {
@@ -62,9 +62,7 @@ function App() {
     })
 
     peer.on("stream", (stream) => {
-      if(myVideo.current) {
-        myVideo.current.srcObject = stream
-      }
+      userVideo.current.srcObject = stream;
     })
 
     socket.on("callAccepted", (signal) => {
@@ -88,9 +86,7 @@ const answerCall = () => {
   })
 
   peer.on("stream", (stream) => {
-    if(myVideo.current) {
-      myVideo.current.srcObject = stream
-    }
+    userVideo.current.srcObject = stream
   })
 
   peer.signal(callerSignal)
